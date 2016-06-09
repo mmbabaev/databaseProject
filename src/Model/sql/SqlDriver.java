@@ -40,13 +40,35 @@ public class SqlDriver {
 
     public void registerUser(User user) throws Exception {
         String checkLoginQuery = "SELECT * FROM users WHERE login='" + user.login + "'";
+
         rs = st.executeQuery(checkLoginQuery);
         if (rs.next()) {
             throw new RegistrationException();
         }
 
-        String query = "INSERT INTO users (first_name, last_name, login, password) values " + user;
+        String query = "INSERT INTO users (first_name, last_name, login, pass) values " + user;
         st.execute(query);
+    }
+
+    public User authorize(String login, String password) {
+        try {
+            String sql = "SELECT * FROM users WHERE login='" + login + "' AND pass='" + password + "'";
+            rs = st.executeQuery(sql);
+            if (rs.next()) {
+                int id = rs.getInt("user_id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                User user = new User(firstName, lastName, login, password);
+                user.id = id;
+                return user;
+            }
+
+            return null;
+        }
+        catch (Exception ex) {
+            return null;
+        }
+
     }
 
     public void close() {
