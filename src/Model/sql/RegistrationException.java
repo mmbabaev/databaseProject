@@ -1,4 +1,3 @@
 package Model.sql;
 
-public class RegistrationException extends Exception {
-}
+public class RegistrationException extends Exception {}
