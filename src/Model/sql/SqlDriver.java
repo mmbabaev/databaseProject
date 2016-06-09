@@ -1,8 +1,12 @@
 package Model.sql;
 
+import Model.Entities.Drug;
+import Model.Entities.Drugstore;
 import Model.Entities.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqlDriver {
     Connection con = null;
@@ -39,14 +43,40 @@ public class SqlDriver {
     }
 
     public void registerUser(User user) throws Exception {
-        String checkLoginQuery = "SELECT * FROM users WHERE login='" + user.login + "'";
+        String checkLoginQuery = "SELECT user_id, first_name, last_name, login, pass FROM users WHERE login='" + user.login + "'";
         rs = st.executeQuery(checkLoginQuery);
         if (rs.next()) {
             throw new RegistrationException();
         }
 
-        String query = "INSERT INTO users (first_name, last_name, login, password) values " + user;
+        String query = "INSERT INTO users (first_name, last_name, login, pass) values " + user;
         st.execute(query);
+    }
+
+    public List<Drugstore> findDrugstoreByName(String drugstoreName) throws Exception{
+        String findDrugQuery = "SELECT drugstore_id, name FROM drugstore where name='" + drugstoreName + "'";
+        rs = st.executeQuery(findDrugQuery);
+        List<Drugstore> result = new ArrayList<>();
+        while(rs.next()){
+            String name = rs.getString("name");
+            int drugstore_id = rs.getInt("drugstore_id");
+            result.add(new Drugstore(drugstore_id, name));
+
+        }
+        return result;
+    }
+
+    public List<Drug> findDrugByName(String drugName) throws Exception{
+        String findDrugQuery = "SELECT drug_id, name FROM drug where name='" + drugName + "'";
+        rs = st.executeQuery(findDrugQuery);
+        List<Drug> result = new ArrayList<>();
+        while(rs.next()){
+            String name = rs.getString("name");
+            int drugstore_id = rs.getInt("drug_id");
+            result.add(new Drug(drugstore_id, name));
+
+        }
+        return result;
     }
 
     public void close() {

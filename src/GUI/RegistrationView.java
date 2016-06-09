@@ -75,6 +75,10 @@ public class RegistrationView extends Application {
                     driver.registerUser(user);
 
                     //todo: идем на другой экран
+                    SearchView s = new SearchView(driver);
+                    s.getPrimaryStage().show();
+                    primaryStage.close();
+
                     System.out.println("Все ок");
                 }
                 catch (RegistrationException ex) {
