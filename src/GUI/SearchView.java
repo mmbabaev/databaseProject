@@ -1,5 +1,6 @@
 package GUI;
 
+import Model.Entities.Drug;
 import Model.Entities.User;
 import Model.sql.RegistrationException;
 import Model.sql.SqlDriver;
@@ -23,7 +24,110 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import jfx.messagebox.MessageBox;
 
-public class SearchView extends Application{
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+public class SearchView {
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    Stage primaryStage;
+    SqlDriver driver;
+    public SearchView(SqlDriver driver){
+        this.driver = driver;
+        table.setEditable(true);
+        primaryStage = new Stage();
+        primaryStage.setTitle("Поиск лекарства");
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setGridLinesVisible(true);
+
+        //Defining the Name text field
+        final TextField name = new TextField();
+        name.setPromptText("Название");
+        GridPane.setConstraints(name, 0, 0);
+        grid.getChildren().add(name);
+
+
+        //Defining the Search button
+        Button search = new Button("Найти");
+        GridPane.setConstraints(search, 0, 1);
+        grid.getChildren().add(search);
+
+        //Defining the Add button (Добавляет в закладки выделенное)
+        Button addButton = new Button("Добавить в закладки");
+        GridPane.setConstraints(addButton, 1, 1);
+        grid.getChildren().add(addButton);
+
+
+        //Create Name column
+        TableColumn nameCol = new TableColumn("Название аптеки");
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+
+        //Create Cost column
+        TableColumn costCol = new TableColumn("Цена");
+        costCol.setCellValueFactory(
+                new PropertyValueFactory<>("cost"));
+
+        //Create Check column
+        TableColumn checkedCol = new TableColumn("В закладки");
+        checkedCol.setCellValueFactory(new PropertyValueFactory<>("checked"));
+        checkedCol.setCellFactory(param -> new CheckBoxTableCell<Pharmacy, Boolean>());
+
+
+
+        table.setItems(data);
+        table.getColumns().addAll(nameCol, costCol, checkedCol);
+        System.out.println(table.getColumns().size());
+        table.setMinWidth(width * 0.7);
+        table.setMinHeight(height * 0.8);
+        costCol.setMinWidth((table.getMinWidth() - table.getMinWidth() / 5) / 2);
+        nameCol.setMinWidth((table.getMinWidth() - table.getMinWidth() / 5) / 2);
+        checkedCol.setMinWidth(table.getMinWidth() / 5);
+        GridPane.setConstraints(table, 1, 0);
+        grid.getChildren().add(table);
+
+
+        //Click on "Search" button
+        search.setOnAction((ActionEvent e) ->{
+
+            data.clear();
+            try {
+                List<Drug> drugs = driver.findDrugByName(name.getText());
+                for (Drug d : drugs){
+                    data.add(new Pharmacy(d.getName(), "123", false));
+                }
+                //data.add(new Pharmacy("Название", "Цена", false));
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+            //data.add(new Pharmacy("Название", "Цена", false));
+
+        });
+
+
+
+        //Click on "Add" button
+        addButton.setOnAction((ActionEvent e) ->{
+            for (Pharmacy pharmacy : data){
+                if (pharmacy.getChecked() == true){
+
+                    System.out.println("Добавлено");
+                }
+            }
+        });
+
+        Scene scene = new Scene(grid, width, height);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
     //Creating the Table
     private TableView table = new TableView();
@@ -37,7 +141,6 @@ public class SearchView extends Application{
     //Height of the window
     private int height = 500;
 
-    @Override
     public void start(Stage primaryStage){
         table.setEditable(true);
 

@@ -56,7 +56,7 @@ public class LoginView extends Application {
                 if (user == null) {
                     showError(primaryStage, "При авторизации произошла ошибка");
                 } else {
-                    SearchView a = new SearchView();
+                    SearchView a = new SearchView(driver);
                     a.start(primaryStage);
                     primaryStage.close();
                 }

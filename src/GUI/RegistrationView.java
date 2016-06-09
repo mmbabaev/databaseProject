@@ -74,13 +74,17 @@ public class RegistrationView extends Application {
                 try {
                     driver.registerUser(user);
 
-                    MessageBox.show(primaryStage, "Пользователь успешно зарегистрирован!", "", MessageBox.ICON_INFORMATION);
+                    //todo: идем на другой экран
+                    SearchView s = new SearchView(driver);
+                    s.getPrimaryStage().show();
+                    primaryStage.close();
+
+                    System.out.println("Все ок");
                 }
                 catch (RegistrationException ex) {
                     showError(primaryStage, "Пользователь с таким именем уже существует!");
                 }
                 catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
                     showError(primaryStage, "При регистрации произошла ошибка");
                 }
             }
