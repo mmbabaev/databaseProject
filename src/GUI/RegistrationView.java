@@ -1,7 +1,8 @@
 package GUI;
 
 import Model.Entities.User;
-import Model.SqlDriver;
+import Model.sql.RegistrationException;
+import Model.sql.SqlDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 import jfx.messagebox.MessageBox;
 
 public class RegistrationView extends Application {
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -31,33 +33,33 @@ public class RegistrationView extends Application {
 
         //Defining the Name text field
         final TextField firstName = new TextField();
-        firstName.setPromptText("Enter your first name.");
+        firstName.setPromptText("Имя");
         GridPane.setConstraints(firstName, 0, 0);
         grid.getChildren().add(firstName);
 
         final TextField lastName = new TextField();
-        lastName.setPromptText("Enter your last name.");
+        lastName.setPromptText("Фамилия");
         GridPane.setConstraints(lastName, 0, 1);
         grid.getChildren().add(lastName);
 
         final TextField login = new TextField();
-        login.setPromptText("Enter your login.");
+        login.setPromptText("Login");
         GridPane.setConstraints(login, 0, 2);
         grid.getChildren().add(login);
 
         //Defining the Comment text field
         final PasswordField password = new PasswordField();
-        password.setPromptText("Enter your password");
+        password.setPromptText("Пароль");
         GridPane.setConstraints(password, 0, 3);
         grid.getChildren().add(password);
 
         //Defining the Submit button
-        Button submit = new Button("Register");
+        Button submit = new Button("Зарегистрироваться");
         GridPane.setConstraints(submit, 1, 0);
         grid.getChildren().add(submit);
 
-//Defining the Clear button
-        Button clear = new Button("Clear");
+        //Defining the Clear button
+        Button clear = new Button("Очистить");
         GridPane.setConstraints(clear, 1, 1);
         grid.getChildren().add(clear);
 
@@ -72,21 +74,18 @@ public class RegistrationView extends Application {
                 try {
                     driver.registerUser(user);
 
-                    //todo: идем на другой жкран
+                    //todo: идем на другой экран
                     System.out.println("Все ок");
                 }
+                catch (RegistrationException ex) {
+                    showError(primaryStage, "Пользователь с таким именем уже существует!");
+                }
                 catch (Exception ex) {
-                    MessageBox.show(primaryStage,
-                            "При регистрации произошла ошибка",
-                            "Ошибка",
-                            MessageBox.ICON_ERROR);
+                    showError(primaryStage, "При регистрации произошла ошибка");
                 }
             }
             else {
-                MessageBox.show(primaryStage,
-                        "Заполните все поля!",
-                        "Ошибка",
-                        MessageBox.ICON_ERROR);
+                showError(primaryStage, "Заполните все поля!");
             }
         });
 
@@ -100,10 +99,16 @@ public class RegistrationView extends Application {
         primaryStage.setTitle("Регистрация");
         StackPane root = new StackPane();
         root.getChildren().add(grid);
-        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.setScene(new Scene(root, 350, 250));
         primaryStage.show();
         clear.requestFocus();
     }
 
 
+    private void showError(Stage stage, String message) {
+        MessageBox.show(stage,
+                message,
+                "Ошибка",
+                MessageBox.ICON_ERROR);
+    }
 }

@@ -1,4 +1,4 @@
-package Model;
+package Model.sql;
 
 import Model.Entities.User;
 
@@ -39,6 +39,12 @@ public class SqlDriver {
     }
 
     public void registerUser(User user) throws Exception {
+        String checkLoginQuery = "SELECT * FROM users WHERE login='" + user.login + "'";
+        rs = st.executeQuery(checkLoginQuery);
+        if (rs.next()) {
+            throw new RegistrationException();
+        }
+
         String query = "INSERT INTO users (first_name, last_name, login, password) values " + user;
         st.execute(query);
     }

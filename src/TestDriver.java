@@ -1,5 +1,5 @@
 import Model.Entities.User;
-import Model.SqlDriver;
+import Model.sql.SqlDriver;
 
 class TestDriver {
     public static void main(String [] args) {
