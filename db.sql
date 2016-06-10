@@ -61,20 +61,19 @@ CREATE TABLE IF NOT EXISTS PRICE_CHANGE
 	price_change_id SERIAL PRIMARY KEY,
 	drug_id INTEGER references drug(drug_id),
 	change_time TIMESTAMP,
-	price REAL,
-	drugstore_id INTEGER references drugstore(drugstore_id)
+	price REAL
 );
 
-insert into price_change (drug_id, change_time, price, drugstore_id) 
+insert into price_change (drug_id, change_time, price)
 	values (0, 10, 10, 0);
-	
-insert into price_change (drug_id, change_time, price, drugstore_id) 
+
+insert into price_change (drug_id, change_time, price)
 	values (0, 10, 10, 1);
-	
-insert into price_change (drug_id, change_time, price, drugstore_id) 
+
+insert into price_change (drug_id, change_time, price)
 	values (0, 10, 10, 2);
-	
-insert into price_change (drug_id, change_time, price, drugstore_id) 
+
+insert into price_change (drug_id, change_time, price)
 	values (0, 10, 10, 3);
 
 CREATE TABLE IF NOT EXISTS DRUG_IN_STORE
