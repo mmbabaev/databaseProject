@@ -65,16 +65,16 @@ CREATE TABLE IF NOT EXISTS PRICE_CHANGE
 );
 
 insert into price_change (drug_id, change_time, price)
-	values (0, 10, 10, 0);
+	values (0, '2016-01-01 00:00:00', 10);
 
 insert into price_change (drug_id, change_time, price)
-	values (0, 10, 10, 1);
+	values (0, '2015-01-01 00:00:00', 10);
 
 insert into price_change (drug_id, change_time, price)
-	values (0, 10, 10, 2);
+	values (0, '2014-01-01 00:00:00', 10);
 
 insert into price_change (drug_id, change_time, price)
-	values (0, 10, 10, 3);
+	values (0, '2013-01-01 00:00:00', 10);
 
 CREATE TABLE IF NOT EXISTS DRUG_IN_STORE
 (
