@@ -1,7 +1,7 @@
-package GUI;
+package gui;
 
-import Model.Entities.User;
-import Model.sql.SqlDriver;
+import model.entities.User;
+import model.sql.SqlDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -57,7 +57,7 @@ public class LoginView extends Application {
                     showError(primaryStage, "При авторизации произошла ошибка");
                 } else {
                     SearchView a = new SearchView(driver);
-                    a.start(primaryStage);
+                    a.getPrimaryStage().show();
                     primaryStage.close();
                 }
             }

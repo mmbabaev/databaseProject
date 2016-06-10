@@ -1,4 +1,4 @@
-package Model.Entities;
+package model.entities;
 
 public class User {
     public String firstName;

@@ -1,8 +1,9 @@
-package Model.sql;
+package model.sql;
 
-import Model.Entities.Drug;
-import Model.Entities.Drugstore;
-import Model.Entities.User;
+import model.entities.Drug;
+import model.entities.DrugInStore;
+import model.entities.Drugstore;
+import model.entities.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,13 +50,14 @@ public class SqlDriver {
             throw new RegistrationException();
         }
 
-        String query = "INSERT INTO users (first_name, last_name, login, pass) values " + user;
+        String query = "INSERT INTO USERS (first_name, last_name, login, pass) VALUES " + user + ";";
+        System.out.println(query);
         st.execute(query);
     }
 
     public User authorize(String login, String password) {
         try {
-            String sql = "SELECT * FROM users WHERE login='" + login + "' AND pass='" + password + "'";
+            String sql = "SELECT * FROM USERS WHERE login='" + login + "' AND pass='" + password + "'";
             rs = st.executeQuery(sql);
             if (rs.next()) {
                 int id = rs.getInt("user_id");
@@ -97,6 +99,33 @@ public class SqlDriver {
 
         }
         return result;
+    }
+
+    public List<DrugInStore> findDrugPrices(String drugName) throws Exception {
+        String findDrugPricesQuery = "SELECT ds.name, dis.price\n" +
+                "FROM DRUG_IN_STORE dis \n" +
+                "\t\tjoin DRUGSTORE ds\n" +
+                "\t\t\ton dis.drugstore_id = ds.drugstore_id\n" +
+                "\t\tjoin DRUG d\n" +
+                "\t\t\ton dis.drug_id = d.drug_id\n" +
+                "WHERE d.name = '" + drugName + "'\n" +
+                ";";
+
+        rs = st.executeQuery(findDrugPricesQuery);
+
+        List<DrugInStore> result = new ArrayList<>();
+        while(rs.next()) {
+            String store = rs.getString("name");
+            Double price = rs.getDouble("price");
+            result.add(new DrugInStore(store, price.toString()));
+        }
+
+        return result;
+    }
+
+    public void addDrugInterest(String userId, String drugId) throws Exception {
+        String query = "INSERT INTO INTERESTED_DRUG (user_id, drug_id) VALUES (" + userId + ", " + drugId + ");";
+        st.execute(query);
     }
 
     public void close() {

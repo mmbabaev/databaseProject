@@ -1,19 +1,13 @@
-package GUI;
+package gui;
 
-import Model.Entities.User;
-import Model.sql.RegistrationException;
-import Model.sql.SqlDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import jfx.messagebox.MessageBox;
 
 public class StartView extends Application {
 

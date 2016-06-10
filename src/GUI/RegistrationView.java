@@ -1,8 +1,8 @@
-package GUI;
+package gui;
 
-import Model.Entities.User;
-import Model.sql.RegistrationException;
-import Model.sql.SqlDriver;
+import model.entities.User;
+import model.sql.RegistrationException;
+import model.sql.SqlDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -74,7 +74,6 @@ public class RegistrationView extends Application {
                 try {
                     driver.registerUser(user);
 
-                    //todo: идем на другой экран
                     SearchView s = new SearchView(driver);
                     s.getPrimaryStage().show();
                     primaryStage.close();
@@ -85,6 +84,7 @@ public class RegistrationView extends Application {
                     showError(primaryStage, "Пользователь с таким именем уже существует!");
                 }
                 catch (Exception ex) {
+                    System.out.println(ex.getLocalizedMessage());
                     showError(primaryStage, "При регистрации произошла ошибка");
                 }
             }

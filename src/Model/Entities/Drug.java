@@ -1,8 +1,5 @@
-package Model.Entities;
+package model.entities;
 
-/**
- * Created by michaelborisov on 09.06.16.
- */
 public class Drug {
 
     public Drug(int drug_id, String name){
