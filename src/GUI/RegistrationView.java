@@ -73,8 +73,8 @@ public class RegistrationView extends Application {
                 User user = new User(firstName.getText(), lastName.getText(), login.getText(), password.getText());
                 try {
                     driver.registerUser(user);
-
-                    SearchView s = new SearchView(driver);
+                    String id = driver.getUserIdByLogin(login.getText());
+                    SearchView s = new SearchView(driver, id);
                     s.getPrimaryStage().show();
                     primaryStage.close();
 

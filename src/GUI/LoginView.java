@@ -56,9 +56,15 @@ public class LoginView extends Application {
                 if (user == null) {
                     showError(primaryStage, "При авторизации произошла ошибка");
                 } else {
-                    SearchView a = new SearchView(driver);
-                    a.getPrimaryStage().show();
-                    primaryStage.close();
+                    try {
+                        String id = driver.getUserIdByLogin(login);
+                        SearchView s = new SearchView(driver, id);
+                        s.getPrimaryStage().show();
+                        primaryStage.close();
+                    }
+                    catch (Exception ex) {
+                        showError(primaryStage, "Ошибка регистрации");
+                    }
                 }
             }
             else {

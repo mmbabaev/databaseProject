@@ -128,6 +128,19 @@ public class SqlDriver {
         st.execute(query);
     }
 
+    public void deleteFromInterest(String userId, String drugId) throws Exception {
+        String query = "delete from interested_drug where drug_id=" + drugId + " and user_id=" + userId + ";";
+        st.execute(query);
+    }
+
+    public String getUserIdByLogin(String login) throws Exception {
+        String query = "select user_id from users where login='" + login + "';";
+        rs = st.executeQuery(query);
+        rs.next();
+        int id = rs.getInt("user_id");
+        return Integer.toString(id);
+    }
+
     public void close() {
         try {
             if (rs != null) {
