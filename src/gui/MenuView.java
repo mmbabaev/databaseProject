@@ -51,6 +51,7 @@ public class MenuView extends Application {
                 cv.start(primaryStage);
             }
             catch (Exception ex) {
+                System.out.println(ex.getLocalizedMessage());
                 showError(primaryStage, "Не удалось открыть закладки");
             }
 

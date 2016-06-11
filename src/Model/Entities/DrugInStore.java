@@ -1,6 +1,5 @@
 package model.entities;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class DrugInStore {
