@@ -30,7 +30,7 @@ public class PriceChange implements Comparable<PriceChange>{
             System.out.println("МдаDate");
         }
 
-        this.date = new Date(year, month, day, hrs, min, sec);
+        this.date = new Date(year, month - 1, day, hrs, min, sec);
 
 
         try {

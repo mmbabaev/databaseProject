@@ -102,6 +102,7 @@ public class ChartView extends Application {
     private void fillData(ObservableList<XYChart.Data> data, Drug drug) throws Exception {
         List<PriceChange> list = driver.findPriceChanges(drug);
         for (PriceChange i : list){
+            System.out.println(i.getString());
             data.add(new XYChart.Data(i.getString(), i.getPriceDouble()));
         }
     }
