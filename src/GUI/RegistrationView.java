@@ -73,10 +73,8 @@ public class RegistrationView extends Application {
                 User user = new User(firstName.getText(), lastName.getText(), login.getText(), password.getText());
                 try {
                     driver.registerUser(user);
-                    String id = driver.getUserIdByLogin(login.getText());
-                    SearchView s = new SearchView(driver, id);
-                    s.getPrimaryStage().show();
-                    primaryStage.close();
+                    MenuView mv = new MenuView(user);
+                    mv.start(primaryStage);
 
                     System.out.println("Все ок");
                 }

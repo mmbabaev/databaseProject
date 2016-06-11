@@ -23,6 +23,10 @@ public class Drug {
         this.name = name;
     }
 
+    public String getId() {
+        return Integer.toString(drug_id);
+    }
+
     int drug_id;
     String name;
 }

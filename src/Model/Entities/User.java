@@ -14,6 +14,10 @@ public class User {
         this.password = password;
     }
 
+    public String getStringId() {
+        return Integer.toString(id);
+    }
+
     @Override
     public String toString() {
         return String.format("('%s', '%s', '%s', '%s')", firstName, lastName, login, password);

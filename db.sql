@@ -30,6 +30,11 @@ CREATE TABLE IF NOT EXISTS USERS
 	pass VARCHAR (50)
 );
 
+insert into users (user_id, first_name, last_name, login, pass)
+	values (100, 'a', 'a', 'a', 'a');
+
+insert into users (user_id, first_name, last_name, login, pass)
+	values (101, 'b', 'b', 'b', 'b');
 
 
 CREATE TABLE IF NOT EXISTS DRUGSTORE
@@ -46,13 +51,15 @@ insert into drugstore (drugstore_id, name) VALUES (4, 'drugstore 4');
 
 
 
-CREATE TABLE IF NOT EXISTS INTRESTED_DRUG
+CREATE TABLE IF NOT EXISTS INTERESTED_DRUG
 (
 	intrested_drug_id SERIAL PRIMARY KEY,
 	drug_id INTEGER references drug(drug_id),
 	user_id INTEGER references users(user_id)
 );
 
+insert into interested_drug (drug_id, user_id)
+	values (0, 101);
 
 
 
@@ -65,16 +72,16 @@ CREATE TABLE IF NOT EXISTS PRICE_CHANGE
 );
 
 insert into price_change (drug_id, change_time, price)
-	values (0, '2016-01-01 00:00:00', 10);
+	values (0, '2016-02-01 00:00:00', 10);
 
 insert into price_change (drug_id, change_time, price)
-	values (0, '2015-01-01 00:00:00', 10);
+	values (0, '2016-02-02 00:00:00', 10);
 
 insert into price_change (drug_id, change_time, price)
-	values (0, '2014-01-01 00:00:00', 10);
+	values (0, '2016-02-03 00:00:00', 10);
 
 insert into price_change (drug_id, change_time, price)
-	values (0, '2013-01-01 00:00:00', 10);
+	values (0, '2016-02-04 00:00:00', 10);
 
 CREATE TABLE IF NOT EXISTS DRUG_IN_STORE
 (

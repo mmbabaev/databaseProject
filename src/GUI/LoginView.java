@@ -57,10 +57,8 @@ public class LoginView extends Application {
                     showError(primaryStage, "При авторизации произошла ошибка");
                 } else {
                     try {
-                        String id = driver.getUserIdByLogin(login);
-                        SearchView s = new SearchView(driver, id);
-                        s.getPrimaryStage().show();
-                        primaryStage.close();
+                        MenuView mv = new MenuView(user);
+                        mv.start(primaryStage);
                     }
                     catch (Exception ex) {
                         showError(primaryStage, "Ошибка регистрации");
@@ -71,8 +69,6 @@ public class LoginView extends Application {
                 showError(primaryStage, "Заполните все поля!");
             }
         });
-
-
 
         primaryStage.setTitle("Регистрация");
         StackPane root = new StackPane();

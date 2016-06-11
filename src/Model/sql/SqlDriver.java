@@ -1,9 +1,6 @@
 package model.sql;
 
-import model.entities.Drug;
-import model.entities.DrugInStore;
-import model.entities.Drugstore;
-import model.entities.User;
+import model.entities.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -50,9 +47,10 @@ public class SqlDriver {
             throw new RegistrationException();
         }
 
-        String query = "INSERT INTO USERS (first_name, last_name, login, pass) VALUES " + user + ";";
-        System.out.println(query);
-        st.execute(query);
+        String query = "INSERT INTO USERS (first_name, last_name, login, pass) VALUES " + user + " returning user_id;";
+        rs = st.executeQuery(query);
+        rs.next();
+        user.id = rs.getInt("user_id");
     }
 
     public User authorize(String login, String password) {
@@ -75,7 +73,7 @@ public class SqlDriver {
         }
     }
 
-    public List<Drugstore> findDrugstoreByName(String drugstoreName) throws Exception{
+    public List<Drugstore> findDrugstoreByName(String drugstoreName) throws Exception {
         String findDrugQuery = "SELECT drugstore_id, name FROM drugstore where name='" + drugstoreName + "'";
         rs = st.executeQuery(findDrugQuery);
         List<Drugstore> result = new ArrayList<>();
@@ -89,16 +87,51 @@ public class SqlDriver {
     }
 
     public List<Drug> findDrugByName(String drugName) throws Exception{
-        String findDrugQuery = "SELECT drug_id, name FROM drug where name='" + drugName + "'";
+        String findDrugQuery = String.format("SELECT drug_id, name FROM drug where name='%s'", drugName);
         rs = st.executeQuery(findDrugQuery);
         List<Drug> result = new ArrayList<>();
-        while(rs.next()){
+        while(rs.next()) {
             String name = rs.getString("name");
             int drugstore_id = rs.getInt("drug_id");
             result.add(new Drug(drugstore_id, name));
-
         }
         return result;
+    }
+
+    public List<Drug> findFavouriteDrugs(User user) throws Exception {
+        String sql = "SELECT * FROM drug WHERE drug_id IN (SELECT drug_id FROM interested_drug WHERE user_id=%s);";
+        String query = String.format(sql, user.getStringId());
+
+        rs = st.executeQuery(query);
+
+        List<Drug> result = new ArrayList<>();
+        while(rs.next()) {
+            String name = rs.getString("name");
+            int drugstore_id = rs.getInt("drug_id");
+            result.add(new Drug(drugstore_id, name));
+        }
+        return result;
+    }
+
+    public List<PriceChange> findPriceChanges(Drug drug) throws Exception {
+        String sql = "SELECT * FROM price_change WHERE drug_id=%s";
+        String query = String.format(sql, drug.getId());
+        rs = st.executeQuery(query);
+
+        List<PriceChange> result = new ArrayList<>();
+        while(rs.next()) {
+            String time = rs.getString("change_time");
+            String price = rs.getString("price");
+            result.add(new PriceChange(time, price));
+        }
+
+        return result;
+    }
+
+    public boolean isDrugInterestingForUser(String drugId, String userId) throws Exception {
+        String query = String.format("select * from interested_drug where drug_id=%s and user_id=%s;", drugId, userId);
+        rs = st.executeQuery(query);
+        return rs.next();
     }
 
     public List<DrugInStore> findDrugPrices(String drugName) throws Exception {
@@ -133,13 +166,14 @@ public class SqlDriver {
         st.execute(query);
     }
 
-    public String getUserIdByLogin(String login) throws Exception {
-        String query = "select user_id from users where login='" + login + "';";
-        rs = st.executeQuery(query);
-        rs.next();
-        int id = rs.getInt("user_id");
-        return Integer.toString(id);
-    }
+    //TODO: скорее всего не понадобится, удалить в конце
+//    public String getUserIdByLogin(String login) throws Exception {
+//        String query = "select user_id from users where login='" + login + "';";
+//        rs = st.executeQuery(query);
+//        rs.next();
+//        int id = rs.getInt("user_id");
+//        return Integer.toString(id);
+//    }
 
     public void close() {
         try {
