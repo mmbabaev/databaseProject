@@ -31,8 +31,8 @@ public class ChartView extends Application {
     @Override public void start(Stage primaryStage) {
 
         Stage stage = new Stage();
-        //TODO: Заменить "НАЗВАНИЕ ПРИЛОЖУХИ" на название приложухи
-        stage.setTitle("НАЗВАНИЕ ПРИЛОЖУХИ");
+
+        stage.setTitle("");
 
 
         //defining the axes
@@ -89,8 +89,8 @@ public class ChartView extends Application {
         //defining a series
         XYChart.Series series = new XYChart.Series();
 
-        //Set series's name ВЫГЛЯДИТ ФУ КАК УБАТЬ ВООБЩЕ ХЗ
-        //series.setName("");
+
+        series.setName("Цена");
 
 
         fillData(series.getData(), drug);

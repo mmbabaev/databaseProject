@@ -17,10 +17,6 @@ import jfx.messagebox.MessageBox;
 
 public class RegistrationView extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) {
         SqlDriver driver = SqlDriver.getInstance();

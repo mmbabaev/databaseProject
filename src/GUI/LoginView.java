@@ -16,10 +16,6 @@ import jfx.messagebox.MessageBox;
 
 public class LoginView extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) {
         SqlDriver driver = SqlDriver.getInstance();
@@ -74,6 +70,7 @@ public class LoginView extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(grid);
         primaryStage.setScene(new Scene(root, 200, 150));
+        primaryStage.setTitle("Авторизация");
         primaryStage.show();
         submit.requestFocus();
     }

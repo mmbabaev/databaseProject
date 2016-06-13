@@ -28,6 +28,7 @@ public class MenuView extends Application {
 
         SqlDriver driver = SqlDriver.getInstance();
 
+
         //Creating a GridPane container
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
@@ -64,6 +65,7 @@ public class MenuView extends Application {
         primaryStage.setTitle("");
         StackPane root = new StackPane();
         root.getChildren().add(grid);
+        primaryStage.setTitle("Меню");
         primaryStage.setScene(new Scene(root, 200, 150));
         primaryStage.show();
     }
